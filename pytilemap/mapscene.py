@@ -6,14 +6,31 @@ import os
 
 from qtpy.QtCore import Qt, Slot, Signal, QRect, QRectF, QPointF, QSizeF, QPoint, QSize
 from qtpy.QtGui import QPixmap, QPen, QBrush, QColor, QPainter
-from qtpy.QtWidgets import QGraphicsScene, QGraphicsLineItem, QGraphicsRectItem, QGraphicsItem
+from qtpy.QtWidgets import (
+    QGraphicsScene,
+    QGraphicsLineItem,
+    QGraphicsRectItem,
+    QGraphicsItem,
+)
 
-from qtpy.QtSvg import QGraphicsSvgItem
+#from qtpy.QtSvg import QGraphicsSvgItem
 
-from .mapitems import MapGraphicsCircleItem, MapGraphicsLineItem, \
-    MapGraphicsPolylineItem, MapGraphicsPixmapItem, MapGraphicsTextItem, \
-    MapGraphicsRectItem, MapGraphicsLinesGroupItem, MapGraphicsGeoPixmapItem, \
-    MapGraphicsLabelItem, MapGraphicsGeoSvgItem, MapGraphicsRectShapeItem, MapGraphicsGeoPixmapItemCorners
+from .mapitems import (
+    MapGraphicsCircleItem,
+    MapGraphicsLineItem,
+    MapGraphicsPolylineItem,
+    MapGraphicsPixmapItem,
+    MapGraphicsTextItem,
+    MapGraphicsRectItem,
+    MapGraphicsLinesGroupItem,
+    MapGraphicsGeoPixmapItem,
+    MapGraphicsLabelItem,
+    MapGraphicsGeoSvgItem,
+    MapGraphicsRectShapeItem,
+    MapGraphicsRangeCircleItem,
+    MapGraphicsRotatedPixmapItem,
+    MapGraphicsGeoPixmapItemCorners,
+)
 from .maplegenditem import MapLegendItem
 from .mapescaleitem import MapScaleItem
 from .mapnavitem import MapNavItem
@@ -22,12 +39,11 @@ from .tileutils import posFromLonLat, lonLatFromPos
 
 
 class MapGraphicsScene(QGraphicsScene):
-    """Graphics scene for showing a slippy map.
-    """
+    """Graphics scene for showing a slippy map."""
 
     sigZoomChanged = Signal(int)
     sigSelectionDrawn = Signal(float, float, float, float)
-    customSceneRectChanged = Signal(float,float,float,float)
+    customSceneRectChanged = Signal(float, float, float, float)
 
     def __init__(self, tileSource, parent=None):
         """Constructor.
@@ -58,7 +74,7 @@ class MapGraphicsScene(QGraphicsScene):
 
         # Rubberband Support for Drawing Areas
         self.rect_start = None
-        self.rect_end   = None
+        self.rect_end = None
         self.rubberband = None
         self.rubberband_enabled = False
 
@@ -67,6 +83,8 @@ class MapGraphicsScene(QGraphicsScene):
         self._tileSource.close()
 
     def setTileSource(self, newTileSource):
+        center = self.center()
+
         self._tileSource.tileReceived.disconnect(self.setTilePixmap)
         self._tileSource.close()
 
@@ -81,10 +99,12 @@ class MapGraphicsScene(QGraphicsScene):
 
         self.invalidate()
         self.update()
+        # lat, lon, zoom = self.get_coords()
+        # self.setCenter(lat, lon, zoom)
 
     def mousePressEvent(self, evt):
-        '''Catch right-click events for rectangle drawing'''
-        if self.rubberband_enabled and evt.button() == 2: 
+        """Catch right-click events for rectangle drawing"""
+        if self.rubberband_enabled and evt.button() == 2:
             evt.accept()
             pos = evt.scenePos()
             self.rect_start = pos
@@ -98,46 +118,48 @@ class MapGraphicsScene(QGraphicsScene):
             QGraphicsScene.mousePressEvent(self, evt)
 
     def mouseReleaseEvent(self, evt):
-        '''Catch right-click events for rectangle drawing'''
+        """Catch right-click events for rectangle drawing"""
         if self.rubberband_enabled and evt.button() == 2:
             evt.accept()
             pos = evt.scenePos()
             lon0, lat0 = self.lonLatFromPos(self.rect_start.x(), self.rect_start.y())
-            lon1,lat1 = self.lonLatFromPos(pos.x(), pos.y())
+            lon1, lat1 = self.lonLatFromPos(pos.x(), pos.y())
             self.removeItem(self.rubberband)
 
             self.rect_start = None
-            self.rect_end   = None
+            self.rect_end = None
             self.rubberband = None
-            
+
             self.sigSelectionDrawn.emit(lon0, lat0, lon1, lat1)
-            
+
         else:
             evt.ignore()
             QGraphicsScene.mouseReleaseEvent(self, evt)
 
     def mouseMoveEvent(self, evt):
-        '''Catch right-click events for rectangle drawing'''
-        if self.rubberband_enabled and self.rect_start: 
+        """Catch right-click events for rectangle drawing"""
+        if self.rubberband_enabled and self.rect_start:
             pos = evt.scenePos()
-            #lon,lat = self.lonLatFromPos(pos.x(), pos.y())
+            # lon,lat = self.lonLatFromPos(pos.x(), pos.y())
             self.rect_end = pos
             if not self.rubberband:
                 self.rubberband = QGraphicsRectItem(
-                                      min(self.rect_start.x(), self.rect_end.x()), 
-                                      min(self.rect_start.y(), self.rect_end.y()),
-                                      abs(self.rect_end.x()-self.rect_start.x()), 
-                                      abs(self.rect_end.y()-self.rect_start.y()))
-                clr = QColor(240,240,240,100)
+                    min(self.rect_start.x(), self.rect_end.x()),
+                    min(self.rect_start.y(), self.rect_end.y()),
+                    abs(self.rect_end.x() - self.rect_start.x()),
+                    abs(self.rect_end.y() - self.rect_start.y()),
+                )
+                clr = QColor(240, 240, 240, 100)
                 self.rubberband.setBrush(clr)
                 self.rubberband.setPen(QPen(QBrush(Qt.blue), 1.0))
                 self.addItem(self.rubberband)
             else:
                 self.rubberband.setRect(
-                                      min(self.rect_start.x(), self.rect_end.x()), 
-                                      min(self.rect_start.y(), self.rect_end.y()),
-                                      abs(self.rect_end.x()-self.rect_start.x()), 
-                                      abs(self.rect_end.y()-self.rect_start.y()))
+                    min(self.rect_start.x(), self.rect_end.x()),
+                    min(self.rect_start.y(), self.rect_end.y()),
+                    abs(self.rect_end.x() - self.rect_start.x()),
+                    abs(self.rect_end.y() - self.rect_start.y()),
+                )
 
     @Slot(QRectF)
     def onSceneRectChanged(self, rect):
@@ -148,28 +170,39 @@ class MapGraphicsScene(QGraphicsScene):
         Args:
             rect(QRectF): Current visible area.
         """
-        tdim = self._tileSource.tileSize()
-        center = rect.center()
-        ct = self.tileFromPos(center.x(), center.y())
-        tx = ct.x()
-        ty = ct.y()
+        #print ("onSceneRectChanged: ", rect)
+        tms = True
+        if tms:
+            tdim = self._tileSource.tileSize()
+            center = rect.center()
+            # print ("center: {}".format(center))
+            ct = self.tileFromPos(center.x(), center.y())
+            tx = ct.x()
+            ty = ct.y()
 
-        width = rect.width()
-        height = rect.height()
-        # top left corner of the center tile
-        xp = int(width / 2.0 - (tx - floor(tx)) * tdim)
-        yp = int(height / 2.0 - (ty - floor(ty)) * tdim)
+            # print ("tx, ty: " , tx, ty )
 
-        # first tile vertical and horizontal
-        xs = tx - (xp + tdim - 1) / tdim
-        ys = ty - (yp + tdim - 1) / tdim
+            width = rect.width()
+            height = rect.height()
 
-        # last tile vertical and horizontal
-        xe = (width - xp - 1) / tdim - xs + 1 + tx
-        ye = (height - yp - 1) / tdim - ys + 1 + ty
+            # print ("width, height: " , width, height )
+            # top left corner of the center tile
+            # print ("tdim: ", tdim)
+            xp = int(width / 2.0 - (tx - floor(tx)) * tdim)
+            yp = int(height / 2.0 - (ty - floor(ty)) * tdim)
+
+            # first tile vertical and horizontal
+            xs = tx - (xp + tdim - 1) / tdim
+            ys = ty - (yp + tdim - 1) / tdim
+
+            # last tile vertical and horizontal
+            xe = (width - xp - 1) / tdim - xs + 1 + tx
+            ye = (height - yp - 1) / tdim - ys + 1 + ty
+        else:
+            pass
 
         # define the rect of visible tiles
-        self._tilesRect = QRect(xs, ys, xe, ye)
+        self._tilesRect = QRect(int(xs), int(ys), int(xe), int(ye))
 
         # Request the loading of new tiles (if needed)
         self.requestTiles()
@@ -177,7 +210,9 @@ class MapGraphicsScene(QGraphicsScene):
         self.invalidate()
         self.update()
         lon0, lat0 = self.lonLatFromPos(rect.x(), rect.y())
-        lon1, lat1 = self.lonLatFromPos(rect.x() + rect.width(), rect.y() + rect.height())
+        lon1, lat1 = self.lonLatFromPos(
+            rect.x() + rect.width(), rect.y() + rect.height()
+        )
 
         self.customSceneRectChanged.emit(lon0, lat0, lon1, lat1)
 
@@ -200,8 +235,8 @@ class MapGraphicsScene(QGraphicsScene):
         emptyTilePix = self._emptyTile
         tilePixmaps = self._tilePixmaps
 
-        for x in iterRange(numXtiles+1):
-            for y in iterRange(numYtiles+1):
+        for x in iterRange(numXtiles + 1):
+            for y in iterRange(numYtiles + 1):
                 tp = (x + left, y + top)
                 box = self.tileRect(tp[0], tp[1])
                 # Use default gray image if tile image is missing
@@ -251,7 +286,7 @@ class MapGraphicsScene(QGraphicsScene):
                            current center position.
         """
         if pos is None:
-            pos = QPoint(self.width()/2, self.height()/2)
+            pos = QPoint(int(self.width() // 2), int(self.height() // 2))
         self.zoomTo(pos, self._zoom + 1)
 
     def zoomOut(self, pos=None):
@@ -262,7 +297,7 @@ class MapGraphicsScene(QGraphicsScene):
                            current center position.
         """
         if pos is None:
-            pos = QPoint(self.width()/2, self.height()/2)
+            pos = QPoint(int(self.width() // 2), int(self.height() // 2))
         self.zoomTo(pos, self._zoom - 1)
 
     @Slot()
@@ -307,8 +342,8 @@ class MapGraphicsScene(QGraphicsScene):
         zoom = self._zoom
 
         # Request load of new tiles
-        for x in iterRange(numXtiles+1):
-            for y in iterRange(numYtiles+1):
+        for x in iterRange(numXtiles + 1):
+            for y in iterRange(numYtiles + 1):
                 tp = (left + x, top + y)
                 # Request tile only if missing
                 if tp not in tilePixmaps:
@@ -355,12 +390,11 @@ class MapGraphicsScene(QGraphicsScene):
         """
         if zoom != None and zoom < 15 and zoom > 0:
             self._zoom = zoom
-        
+
         rect = QRectF(self.sceneRect())
         pos = self.posFromLonLat(lon, lat)
         rect.moveCenter(QPointF(pos[0], pos[1]))
         self.setSceneRect(rect)
-
 
     def center(self):
         centerPos = self.sceneRect().center()
@@ -406,6 +440,11 @@ class MapGraphicsScene(QGraphicsScene):
         """
         return lonLatFromPos(x, y, self._zoom, self._tileSource.tileSize())
 
+    def get_coords(self):
+        centerPos = self.sceneRect().center()
+        lon, lat = self.lonLatFromPos(centerPos.x(), centerPos.y())
+        return lon, lat, self._zoom
+
     def tileFromPos(self, x, y):
         """Tile in the selected position.
 
@@ -433,6 +472,27 @@ class MapGraphicsScene(QGraphicsScene):
         """
 
         item = MapGraphicsRectShapeItem(longitude, latitude, width, height)
+        self.addItem(item)
+        return item
+
+    def addItem(self, item):
+        self.sigZoomChanged.connect(item.setZoom)
+        super().addItem(item)
+        item.updatePosition(self)
+
+    def addRangeCircle(self, longitude, latitude, radius):
+        """Add a new circle to the graphics scene.
+
+        Args:
+            longitude(float): Longitude of the center of the circle.
+            latitude(float): Latitude of the center of the circle.
+            radius(float): radius meters
+
+        Returns:
+            MapGraphicsCircleItem added to the scene.
+        """
+
+        item = MapGraphicsRangeCircleItem(longitude, latitude, radius)
         self.addItem(item)
         return item
 
@@ -507,7 +567,7 @@ class MapGraphicsScene(QGraphicsScene):
         Returns:
             MapGraphicsPixmapItem added to the scene.
         """
-        pinfile = os.path.dirname(__file__) + os.sep + 'red_pin.png'
+        pinfile = os.path.dirname(__file__) + os.sep + "red_pin.png"
         pixmap = QPixmap()
         pixmap.load(pinfile)
         item = MapGraphicsPixmapItem(lon, lat, pixmap)
@@ -534,40 +594,41 @@ class MapGraphicsScene(QGraphicsScene):
         return item
 
     def addGeoSvg(self, lon0, lat0, lon1, lat1, svg):
-        '''Add a geo-registered pixmap to the scene
+        """Add a geo-registered pixmap to the scene
 
         Args:
             lon0(float): Longitude (decimal degress WGS84) upper left
             lat0(float): Lattitude (decimal degrees WGS84) upper left
             lon1(float): Longitude lower right
             lat1(float): Lattitudelower right
-        
+
         Returns:
             MapGraphicsGeoPixmapItem
-        '''
+        """
         item = MapGraphicsGeoSvgItem(lon0, lat0, lon1, lat1, svg)
         self.addItem(item)
         return item
 
-
     def addGeoPixmap(self, lon0, lat0, lon1, lat1, pixmap):
-        '''Add a geo-registered pixmap to the scene
+        """Add a geo-registered pixmap to the scene
 
         Args:
             lon0(float): Longitude (decimal degress WGS84) upper left
             lat0(float): Lattitude (decimal degrees WGS84) upper left
             lon1(float): Longitude lower right
             lat1(float): Lattitudelower right
-        
+
         Returns:
             MapGraphicsGeoPixmapItem
-        '''
+        """
         item = MapGraphicsGeoPixmapItem(lon0, lat0, lon1, lat1, pixmap)
         self.addItem(item)
         return item
 
-    def addGeoPixmapCorners(self, lon0, lat0, lon1, lat1, lon2, lat2, lon3, lat3, pixmap):
-        '''Add a geo-registered pixmap to the scene using 4 lat-lon corners
+    def addGeoPixmapCorners(
+        self, lon0, lat0, lon1, lat1, lon2, lat2, lon3, lat3, pixmap
+    ):
+        """Add a geo-registered pixmap to the scene using 4 lat-lon corners
 
         Args:
             lon0(float): Longitude (decimal degress WGS84) upper left of image
@@ -581,12 +642,19 @@ class MapGraphicsScene(QGraphicsScene):
 
         Returns:
             MapGraphicsGeoPixmapItem
-        '''
-        item = MapGraphicsGeoPixmapItemCorners(lon0, lat0, lon1, lat1,
-                                               lon2, lat2, lon3, lat3, pixmap)
+        """
+        item = MapGraphicsGeoPixmapItemCorners(
+            lon0, lat0, lon1, lat1, lon2, lat2, lon3, lat3, pixmap
+        )
         self.addItem(item)
         return item
 
+    def addRotatedPixmap(self, lon_deg, lat_deg, angle_deg, pixmap, scale_factor):
+        item = MapGraphicsRotatedPixmapItem(
+            lon_deg, lat_deg, angle_deg, pixmap, scale_factor
+        )
+        self.addItem(item)
+        return item
 
     def addText(self, longitude, latitude, text):
         """Add a test item to the graphics scene.
@@ -607,11 +675,15 @@ class MapGraphicsScene(QGraphicsScene):
         self.addItem(self.nav_item)
         self.nav_item.zoom_in_button.clicked.connect(self.handleZoomIn)
         self.nav_item.zoom_out_button.clicked.connect(self.handleZoomOut)
+        self.sceneRectChanged.connect(self.nav_item.setSceneRect)
         return self.nav_item
 
     def addLegend(self, pos=QPointF(10.0, 10.0)):
+        print ("Not Supported")
+        return None
         legend = MapLegendItem(pos=pos)
         self.addItem(legend)
+        self.sceneRectChanged.connect(legend.setSceneRect)
         return legend
 
     def addScale(self, **kwargs):
@@ -632,8 +704,8 @@ class MapGraphicsScene(QGraphicsScene):
         """
         scaleItem = MapScaleItem(**kwargs)
         self.addItem(scaleItem)
+        self.sceneRectChanged.connect(scaleItem._setSceneRect)
         return scaleItem
-
 
     def addLinesGroup(self, longitudes, latitudes):
         item = MapGraphicsLinesGroupItem(longitudes, latitudes)

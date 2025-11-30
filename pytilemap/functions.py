@@ -1,5 +1,5 @@
 import sys
-import sip
+#import sip
 import numpy as np
 
 from qtpy.QtCore import Qt
@@ -12,16 +12,16 @@ BevelJoin = Qt.BevelJoin
 
 
 __all__ = [
-    'iterRange',
-    'makeColorFromInts',
-    'makeColorFromFloats',
-    'makeColorFromStr',
-    'makeColorFromNdArray',
-    'makeColorFromList',
-    'makeColor',
-    'makeBrush',
-    'makePen',
-    'clip',
+    "iterRange",
+    "makeColorFromInts",
+    "makeColorFromFloats",
+    "makeColorFromStr",
+    "makeColorFromNdArray",
+    "makeColorFromList",
+    "makeColor",
+    "makeBrush",
+    "makePen",
+    "clip",
 ]
 
 PYTHON_VERSION = sys.version_info[0]
@@ -29,6 +29,7 @@ PYTHON_VERSION = sys.version_info[0]
 if PYTHON_VERSION == 2:
     iterRange = xrange
     import itertools
+
     izip = itertools.izip
 else:
     iterRange = range
@@ -171,10 +172,10 @@ def makePen(color, width=1.0, style=SolidLine, cap=SquareCap, join=BevelJoin):
         return QPen(color)
     brush = makeBrush(color)
     if isinstance(brush, list):
-        if not hasattr(width, '__iter__'):
+        if not hasattr(width, "__iter__"):
             width = np.full(len(brush), width, dtype=np.float64)
         return [QPen(b, w, style=style) for b, w in izip(brush, width)]
-    return QPen(brush, width, style=style, cap=cap, join=join)
+    return QPen(brush, width, style, cap, join)
 
 
 def clip(value, minValue, maxValue):

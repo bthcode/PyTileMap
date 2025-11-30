@@ -12,8 +12,18 @@ class MapTileSourceDirectory(MapTileSource):
     _directory = None
     _fnameSuffix = None
 
-    def __init__(self, directory, filenameSuffix='.png', tileSize=256, minZoom=2, maxZoom=18, parent=None):
-        MapTileSource.__init__(self, tileSize=tileSize, minZoom=minZoom, maxZoom=maxZoom, parent=parent)
+    def __init__(
+        self,
+        directory,
+        filenameSuffix=".png",
+        tileSize=256,
+        minZoom=2,
+        maxZoom=18,
+        parent=None,
+    ):
+        MapTileSource.__init__(
+            self, tileSize=tileSize, minZoom=minZoom, maxZoom=maxZoom, parent=parent
+        )
         self._directory = directory
         self._fnameSuffix = filenameSuffix
 
@@ -27,7 +37,9 @@ class MapTileSourceDirectory(MapTileSource):
         return self._minZoom
 
     def requestTile(self, x, y, zoom):
-        filename = os.path.join(self._directory, str(zoom), str(x), str(y)+self._fnameSuffix)
+        filename = os.path.join(
+            self._directory, str(zoom), str(x), str(y) + self._fnameSuffix
+        )
         if os.path.exists(filename):
             return QPixmap(filename)
         return None
