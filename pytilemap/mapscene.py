@@ -1,21 +1,14 @@
-from __future__ import print_function, absolute_import, division
-
-from numpy import floor
-import math
+import numpy as np
 import os
 
-from qtpy.QtCore import Qt, Slot, Signal, QRect, QRectF, QPointF, QSizeF, QPoint, QSize
-from qtpy.QtGui import QPixmap, QPen, QBrush, QColor, QPainter
-from qtpy.QtWidgets import (
-    QGraphicsScene,
-    QGraphicsLineItem,
-    QGraphicsRectItem,
-    QGraphicsItem,
-)
 
-#from qtpy.QtSvg import QGraphicsSvgItem
+# Pyside Imports
+from PySide6.QtCore import Qt, Signal, Slot, QRect, QRectF, QPointF, QSizeF, QPoint, QSize
+from PySide6.QtGui import QPixmap, QPen, QBrush, QColor, QPainter
+from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsScene
 
-from .mapitems import (
+
+from pytilemap.mapitems import (
     MapGraphicsCircleItem,
     MapGraphicsLineItem,
     MapGraphicsPolylineItem,
@@ -31,11 +24,11 @@ from .mapitems import (
     MapGraphicsRotatedPixmapItem,
     MapGraphicsGeoPixmapItemCorners,
 )
-from .maplegenditem import MapLegendItem
-from .mapescaleitem import MapScaleItem
-from .mapnavitem import MapNavItem
-from .functions import iterRange
-from .tileutils import posFromLonLat, lonLatFromPos
+from pytilemap.maplegenditem import MapLegendItem
+from pytilemap.mapescaleitem import MapScaleItem
+from pytilemap.mapnavitem import MapNavItem
+from pytilemap.functions import iterRange
+from pytilemap.tileutils import posFromLonLat, lonLatFromPos
 
 
 class MapGraphicsScene(QGraphicsScene):
@@ -188,8 +181,8 @@ class MapGraphicsScene(QGraphicsScene):
             # print ("width, height: " , width, height )
             # top left corner of the center tile
             # print ("tdim: ", tdim)
-            xp = int(width / 2.0 - (tx - floor(tx)) * tdim)
-            yp = int(height / 2.0 - (ty - floor(ty)) * tdim)
+            xp = int(width / 2.0 - (tx - np.floor(tx)) * tdim)
+            yp = int(height / 2.0 - (ty - np.floor(ty)) * tdim)
 
             # first tile vertical and horizontal
             xs = tx - (xp + tdim - 1) / tdim
