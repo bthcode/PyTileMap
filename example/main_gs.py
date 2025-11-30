@@ -5,7 +5,7 @@ from qtpy.QtGui import QPainter, QColor, QPen, QBrush, QPixmap
 from qtpy.QtWidgets import QMainWindow, QGraphicsView, QGraphicsItem, \
     QGraphicsSimpleTextItem, QApplication
 
-from pytilemap import MapGraphicsView, MapTileSourceHere, MapTileSourceOSM
+from pytilemap.mapview import MapGraphicsView
 
 
 
@@ -74,11 +74,11 @@ class MapZoom(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
 
-        view = MapGraphicsView(tileSource=MapTileSourceHere())
+        view = MapGraphicsView()
 
         self.setCentralWidget(view)
 
-        view.scene().setCenter(10.065990, 44.861041, zoom=13)
+        view.scene().setCenter(10.065990, 44.861041, zoom=2)
         view.setOptimizationFlag(QGraphicsView.DontSavePainterState, True)
         view.setRenderHint(QPainter.Antialiasing, True)
         view.setRenderHint(QPainter.SmoothPixmapTransform, True)
@@ -172,7 +172,7 @@ class MapZoom(QMainWindow):
         #legendItem.addPoint('Polygon 5', '#FF00FF', border=None)
 
         # TODO
-        #navItem = view.scene().addNavItem(anchor=Qt.TopRightCorner)
+        navItem = view.scene().addNavItem(anchor=Qt.TopRightCorner)
 
         # TODO
         # scaleItem = view.scene().addScale(anchor=Qt.BottomRightCorner)

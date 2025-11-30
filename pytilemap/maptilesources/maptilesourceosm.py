@@ -10,5 +10,5 @@ class MapTileSourceOSM(MapTileSourceHTTP):
         self._cache_dir = 'tile.openstreetmap.org'
 
     def url(self, x, y, zoom):
-        url = "http://tile.openstreetmap.org/%d/%d/%d.png" % (zoom, x, y)
+        url = "https://tile.openstreetmap.org/%d/%d/%d.png" % (zoom, x, y)
         return url

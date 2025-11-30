@@ -4,15 +4,21 @@ from qtpy.QtCore import Qt, Slot
 from qtpy.QtWidgets import QGraphicsView
 
 from .mapscene import MapGraphicsScene
-from .maptilesources.maptilesourceosm import MapTileSourceOSM
 from .qtsupport import wheelAngleDelta
 
+from pytilemap.maptilesources.maptilesourceosm import MapTileSourceOSM
 
 class MapGraphicsView(QGraphicsView):
     """Graphics view for showing a slippy map.
     """
+    #request_tile = Signal(int, int, int, str)
+    #setAimpoint = Signal(int, int, int)
 
-    def __init__(self, tileSource=None, parent=None):
+
+    def __init__(self, 
+                 tile_cache_dir:str = 'cache', 
+                 tile_url_template:str="https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                 parent=None):
         """Constructor.
 
         Args:
@@ -20,8 +26,8 @@ class MapGraphicsView(QGraphicsView):
             parent(QObject): Parent object, default `None`
         """
         QGraphicsView.__init__(self, parent=parent)
-        if tileSource is None:
-            tileSource = MapTileSourceOSM()
+        tileSource = MapTileSourceOSM()
+        
         scene = MapGraphicsScene(tileSource)
         self.setScene(scene)
         self._lastMousePos = None

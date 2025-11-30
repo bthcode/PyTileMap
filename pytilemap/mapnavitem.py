@@ -3,8 +3,15 @@ from __future__ import print_function, absolute_import
 import os
 from qtpy.QtCore import Qt, Slot, QRectF, QPointF, QObject, Signal
 from qtpy.QtGui import QPen, QBrush, QColor, QPixmap
-from qtpy.QtWidgets import QGraphicsObject, QGraphicsRectItem, QGraphicsItemGroup, \
-    QGraphicsSimpleTextItem, QGraphicsEllipseItem, QGraphicsLineItem, QGraphicsPixmapItem
+from qtpy.QtWidgets import (
+    QGraphicsObject,
+    QGraphicsRectItem,
+    QGraphicsItemGroup,
+    QGraphicsSimpleTextItem,
+    QGraphicsEllipseItem,
+    QGraphicsLineItem,
+    QGraphicsPixmapItem,
+)
 
 from .imagebutton import ImageButton
 from .mapitems import MapItem
@@ -25,10 +32,10 @@ class MapNavItem(QGraphicsObject, MapItem):
         Qt.BottomRightCorner: QPointF(30.0, 75.0),
     }
 
-
     def __init__(self, anchor, parent=None):
-        QGraphicsObject.__init__(self, parent=parent)
+        super().__init__()
         MapItem.__init__(self)
+
         self.setZValue(200.0)
 
         anchorPos = self._posForAnchors[anchor]
@@ -41,23 +48,24 @@ class MapNavItem(QGraphicsObject, MapItem):
 
         self._entries = list()
 
-        imgfile = os.path.dirname(__file__) + os.sep + 'zoom_in_symbol.png'
-        img = QPixmap(24,24)
+        imgfile = os.path.dirname(__file__) + os.sep + "zoom_in_symbol.png"
+        img = QPixmap(24, 24)
         img.load(imgfile)
-        img = img.scaled(24,24) 
+        img = img.scaled(24, 24)
         img = ImageButton(img, parent=self)
         self.zoom_in_button = img
         self.addEntry(self.zoom_in_button)
 
-        imgfile = os.path.dirname(__file__) + os.sep + 'zoom_out_symbol.png'
-        img2 = QPixmap(24,24)
+        imgfile = os.path.dirname(__file__) + os.sep + "zoom_out_symbol.png"
+        img2 = QPixmap(24, 24)
         img2.load(imgfile)
-        img2 = img2.scaled(24,24) 
+        img2 = img2.scaled(24, 24)
         img2 = ImageButton(img2, parent=self)
         self.zoom_out_button = img2
         self.addEntry(self.zoom_out_button)
 
     def _sceneChanged(self, oldScene, newScene):
+        print ("brain")
         if oldScene is not None:
             oldScene.sceneRectChanged.disconnect(self.setSceneRect)
         if newScene is not None:
@@ -100,10 +108,9 @@ class MapNavItem(QGraphicsObject, MapItem):
         elif anchor == Qt.BottomLeftCorner:
             newPos = rect.bottomLeft() + anchorPos
         else:
-            raise NotImplementedError('Other corner have not actually been implemented')
+            raise NotImplementedError("Other corner have not actually been implemented")
 
         self.setPos(newPos)
-
 
     def _updateLayout(self):
         self.prepareGeometryChange()
@@ -147,4 +154,3 @@ class MapNavItem(QGraphicsObject, MapItem):
         The arguments are the same of the :func:`makeBrush` function
         """
         return self._border.setBrush(makeBrush(*args, **kwargs))
-

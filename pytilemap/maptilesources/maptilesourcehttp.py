@@ -50,7 +50,7 @@ class MapTileHTTPLoader(QObject):
                 self.tileLoaded.emit(x, y, zoom,  open(path, 'rb').read())
             else:
                 # Request the image to the map service
-                request = QNetworkRequest(url=url)
+                request = QNetworkRequest(url.toString())
                 request.setRawHeader(b'User-Agent', self._userAgent)
                 request.setAttribute(QNetworkRequest.User, [key, cache_dir])
                 request.setAttribute(QNetworkRequest.CacheLoadControlAttribute, QNetworkRequest.PreferCache)
@@ -60,6 +60,7 @@ class MapTileHTTPLoader(QObject):
     @Slot(QNetworkReply)
     def handleNetworkData(self, reply):
         [tp, cache_dir] = getQVariantValue(reply.request().attribute(QNetworkRequest.User))
+        tp = tuple(tp)
         if tp in self._tileInDownload:
             del self._tileInDownload[tp]
 
@@ -67,7 +68,7 @@ class MapTileHTTPLoader(QObject):
 
         base = cache_dir
 
-        if not reply.error():
+        if reply.error() == QNetworkReply.NetworkError.NoError:
             data = reply.readAll()
             if not os.path.isdir(os.path.join(self._cache, base, str(zoom), str(x))):
                 os.makedirs(os.path.join(self._cache, base, str(zoom), str(x))) 
@@ -75,6 +76,8 @@ class MapTileHTTPLoader(QObject):
             fout.write(data)
             fout.close()
             self.tileLoaded.emit(tp[0], tp[1], tp[2], data)
+        else:
+            print (f"error: {reply.error()}")
         reply.close()
         reply.deleteLater()
 
