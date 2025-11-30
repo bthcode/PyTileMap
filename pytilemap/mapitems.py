@@ -20,7 +20,7 @@ from qtpy.QtWidgets import (
 )
 
 
-import pytilemap.coordinate_conversion as cc
+import pytilemap.coordinate_utils as cc
 import math
 
 try:
@@ -730,7 +730,9 @@ class MapGraphicsGeoPixmapItem(QGraphicsPixmapItem, MapItem):
         self.setPixmap(pixmap)
         # self.setPixmap(pixmap.scaled(2000,2000))
         # self.setTransformationMode(Qt.FastTransformation)
-        self.setShapeMode(1)
+
+        # TODO
+        #self.setShapeMode(1)
         self.x_mult = 1
         self.y_mult = 1
 

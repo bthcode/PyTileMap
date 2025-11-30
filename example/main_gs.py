@@ -145,6 +145,7 @@ class MapZoom(QMainWindow):
         pix = QPixmap(100,100)
         pix.fill(clr)
 
+        # TODO
         view.scene().addGeoPixmapCorners(lon0r, lat0r,
                                         lon1r, lat1r,
                                         lon2r, lat2r,
@@ -153,24 +154,28 @@ class MapZoom(QMainWindow):
 
 
 
-        lats_2 = list()
-        lons_2 = list()
-        for p in POINTS_2:
-            lons_2.append(p[1])
-            lats_2.append(p[0])
-        linesGroupItem = view.scene().addLinesGroup(lons_2, lats_2)
-        linesGroupItem.setLineStyle(POINTS_2_COLORS, width=POINTS_2_SIZES)
+        # TODO
+        #lats_2 = list()
+        #lons_2 = list()
+        #for p in POINTS_2:
+        #    lons_2.append(p[1])
+        #    lats_2.append(p[0])
+        #linesGroupItem = view.scene().addLinesGroup(lons_2, lats_2)
+        #linesGroupItem.setLineStyle(POINTS_2_COLORS, width=POINTS_2_SIZES)
 
-        legendItem = view.scene().addLegend()
-        legendItem.addPoint('Point 1', '#FF0000', border=None)
-        legendItem.addRect('Rect 2', '#00FF00', border=None)
-        legendItem.addPoint('Circle 3', '#0000FF', border=None)
-        legendItem.addRect('Sphere 4', '#00FFFF', border=None)
-        legendItem.addPoint('Polygon 5', '#FF00FF', border=None)
+        # TODO
+        #legendItem = view.scene().addLegend()
+        #legendItem.addPoint('Point 1', '#FF0000', border=None)
+        #legendItem.addRect('Rect 2', '#00FF00', border=None)
+        #legendItem.addPoint('Circle 3', '#0000FF', border=None)
+        #legendItem.addRect('Sphere 4', '#00FFFF', border=None)
+        #legendItem.addPoint('Polygon 5', '#FF00FF', border=None)
 
-        navItem = view.scene().addNavItem(anchor=Qt.TopRightCorner)
+        # TODO
+        #navItem = view.scene().addNavItem(anchor=Qt.TopRightCorner)
 
-        scaleItem = view.scene().addScale(anchor=Qt.BottomRightCorner)
+        # TODO
+        # scaleItem = view.scene().addScale(anchor=Qt.BottomRightCorner)
 
         
 
