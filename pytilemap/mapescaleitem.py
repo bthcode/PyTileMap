@@ -1,13 +1,13 @@
 import numpy as np
 
-from qtpy.QtCore import Qt, Slot, QPointF, QRectF
-from qtpy.QtGui import QFontMetrics, QFont
-from qtpy.QtWidgets import QGraphicsObject
+from PySide6.QtCore import Qt, Slot, QPointF, QRectF
+from PySide6.QtGui import QFontMetrics, QFont
+from PySide6.QtWidgets import QGraphicsObject
 
 
-from .mapitems import MapItem
-from .functions import makePen, makeBrush, clip
-from .qtsupport import getQVariantValue
+from pytilemap.mapitems import MapItem
+from pytilemap.functions import makePen, makeBrush, clip
+from pytilemap.qtsupport import getQVariantValue
 
 
 class MapScaleItem(QGraphicsObject, MapItem):
