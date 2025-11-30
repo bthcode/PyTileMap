@@ -1,9 +1,9 @@
 from __future__ import print_function, absolute_import
 
 import os
-from qtpy.QtCore import Qt, Slot, QRectF, QPointF, QObject, Signal
-from qtpy.QtGui import QPen, QBrush, QColor, QPixmap
-from qtpy.QtWidgets import (
+from PySide6.QtCore import Qt, Slot, QRectF, QPointF, QObject, Signal
+from PySide6.QtGui import QPen, QBrush, QColor, QPixmap
+from PySide6.QtWidgets import (
     QGraphicsObject,
     QGraphicsRectItem,
     QGraphicsItemGroup,
@@ -13,12 +13,12 @@ from qtpy.QtWidgets import (
     QGraphicsPixmapItem,
 )
 
-from .imagebutton import ImageButton
-from .mapitems import MapItem
-from .functions import makePen, makeBrush
-from .qtsupport import getQVariantValue
+from pytilemap.imagebutton import ImageButton
+from pytilemap.mapitems import MapItem
+from pytilemap.functions import makePen, makeBrush
+from pytilemap.qtsupport import getQVariantValue
 
-from .maplegenditem import *
+from pytilemap.maplegenditem import *
 
 
 class MapNavItem(QGraphicsObject, MapItem):
