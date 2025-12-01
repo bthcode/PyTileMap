@@ -74,7 +74,7 @@ class MapScaleItem(QGraphicsObject, MapItem):
             Almost all the argumnets accepted by the functions.makeBrush() and functions.makePen()
             are accepted.
         """
-        QGraphicsObject.__init__(self, parent=parent)
+        QGraphicsObject.__init__(self)
         MapItem.__init__(self)
 
         self.setZValue(100)
@@ -99,9 +99,11 @@ class MapScaleItem(QGraphicsObject, MapItem):
 
         self._barWidth = 0  # The width of the scale bar
         self._text = ''  # The text to display near the scale bar
-        self._zoom = 0  # The current zoom level
-        self._meters = 0  # The number of meters used to evaluate the size of the scale bar and its text
+        self._zoom = 2  # The current zoom level
         self._meterPerPixelsEquator = 0  # The number of meters each pixel represents at the equator
+        self._meters = 0  # The number of meters used to evaluate the size of the scale bar and its text
+        # Initialize zoom to something reasonable so we don't hit nans
+        self.setZoom(self._zoom)
         self._textRect = QRectF()  # The bounding rect of text
 
     def _sceneChanged(self, oldScene, newScene):
