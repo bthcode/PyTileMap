@@ -3,7 +3,7 @@
 title: PyTileMap Overview
 ---
 classDiagram
-    QGraphicsView <|- MapGraphicsView
+    QGraphicsView <|-- MapGraphicsView
     MapGraphicsView -- MapGraphicsScene
     QGraphicsScene <|-- MapGraphicsScene 
     MapGraphicsScene -- MapTileSource
