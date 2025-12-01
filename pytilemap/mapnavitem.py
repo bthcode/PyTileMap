@@ -1,5 +1,3 @@
-from __future__ import print_function, absolute_import
-
 import os
 from PySide6.QtCore import Qt, Slot, QRectF, QPointF, QObject, Signal
 from PySide6.QtGui import QPen, QBrush, QColor, QPixmap
@@ -16,7 +14,6 @@ from PySide6.QtWidgets import (
 from pytilemap.imagebutton import ImageButton
 from pytilemap.mapitems import MapItem
 from pytilemap.functions import makePen, makeBrush
-from pytilemap.qtsupport import getQVariantValue
 
 from pytilemap.maplegenditem import *
 

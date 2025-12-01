@@ -25,7 +25,7 @@ from pytilemap.mapitems import (
     MapGraphicsGeoPixmapItemCorners,
 )
 from pytilemap.maplegenditem import MapLegendItem
-from pytilemap.mapescaleitem import MapScaleItem
+from pytilemap.mapscaleitem import MapScaleItem
 from pytilemap.mapnavitem import MapNavItem
 from pytilemap.functions import iterRange
 from pytilemap.tileutils import posFromLonLat, lonLatFromPos

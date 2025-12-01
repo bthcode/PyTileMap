@@ -5,7 +5,6 @@ from PySide6.QtWidgets import QGraphicsObject, QGraphicsRectItem, QGraphicsItemG
 
 from pytilemap.mapitems import MapItem
 from pytilemap.functions import makePen, makeBrush
-from pytilemap.qtsupport import getQVariantValue
 
 
 class MapLegendEntryItem(QGraphicsItemGroup):

@@ -1,7 +1,5 @@
-from __future__ import print_function, absolute_import
-
-from qtpy.QtCore import Qt, Signal
-from qtpy.QtWidgets import QGraphicsObject, QGraphicsItemGroup, QGraphicsPixmapItem
+from PySide6.QtCore import Qt, Signal
+from PySide6.QtWidgets import QGraphicsObject, QGraphicsItemGroup, QGraphicsPixmapItem
 
 class ImageButton(QGraphicsObject):
     '''
