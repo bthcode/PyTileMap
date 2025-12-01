@@ -1,8 +1,8 @@
 import sys
 
-from qtpy.QtCore import Qt
-from qtpy.QtGui import QPainter, QColor, QPen, QBrush, QPixmap
-from qtpy.QtWidgets import QMainWindow, QGraphicsView, QGraphicsItem, \
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QPainter, QColor, QPen, QBrush, QPixmap
+from PySide6.QtWidgets import QMainWindow, QGraphicsView, QGraphicsItem, \
     QGraphicsSimpleTextItem, QApplication
 
 from pytilemap.mapview import MapGraphicsView

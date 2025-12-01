@@ -22,7 +22,6 @@ import math
 
 
 from pytilemap.functions import iterRange, makePen, izip
-from pytilemap.qtsupport import getQVariantValue
 
 SolidLine = Qt.SolidLine
 
@@ -56,7 +55,6 @@ class MapItem(object):
             if oldScene is not None:
                 oldScene.sigZoomChanged.disconnect(self.setZoom)
             # Connect the new scene, if any
-            newScene = getQVariantValue(value)
             if newScene is not None:
                 newScene.sigZoomChanged.connect(self.setZoom)
 
