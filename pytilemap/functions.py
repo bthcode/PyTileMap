@@ -10,30 +10,8 @@ SquareCap = Qt.SquareCap
 BevelJoin = Qt.BevelJoin
 
 
-__all__ = [
-    "iterRange",
-    "makeColorFromInts",
-    "makeColorFromFloats",
-    "makeColorFromStr",
-    "makeColorFromNdArray",
-    "makeColorFromList",
-    "makeColor",
-    "makeBrush",
-    "makePen",
-    "clip",
-]
-
-PYTHON_VERSION = sys.version_info[0]
-
-if PYTHON_VERSION == 2:
-    iterRange = xrange
-    import itertools
-
-    izip = itertools.izip
-else:
-    iterRange = range
-    izip = zip
-
+iterRange = range
+izip = zip
 
 def makeColorFromInts(ints):
     """Create a color from list or tuple of integers
