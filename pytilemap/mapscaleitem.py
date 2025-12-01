@@ -7,7 +7,6 @@ from PySide6.QtWidgets import QGraphicsObject
 
 from pytilemap.mapitems import MapItem
 from pytilemap.functions import makePen, makeBrush, clip
-from pytilemap.qtsupport import getQVariantValue
 
 
 class MapScaleItem(QGraphicsObject, MapItem):

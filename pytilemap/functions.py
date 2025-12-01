@@ -1,9 +1,8 @@
 import sys
-#import sip
 import numpy as np
 
-from qtpy.QtCore import Qt
-from qtpy.QtGui import QColor, QBrush, QPen
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QColor, QBrush, QPen
 
 SolidLine = Qt.SolidLine
 SolidPattern = Qt.SolidPattern

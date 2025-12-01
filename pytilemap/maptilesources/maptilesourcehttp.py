@@ -6,7 +6,6 @@ from qtpy.QtNetwork import QNetworkRequest, QNetworkDiskCache, QNetworkAccessMan
     QNetworkReply
 
 from .maptilesource import MapTileSource
-from ..qtsupport import getQVariantValue, getCacheFolder
 
 import os
 from urllib.parse import urlparse
@@ -59,7 +58,7 @@ class MapTileHTTPLoader(QObject):
 
     @Slot(QNetworkReply)
     def handleNetworkData(self, reply):
-        [tp, cache_dir] = getQVariantValue(reply.request().attribute(QNetworkRequest.User))
+        [tp, cache_dir] = reply.request().attribute(QNetworkRequest.User)
         tp = tuple(tp)
         if tp in self._tileInDownload:
             del self._tileInDownload[tp]

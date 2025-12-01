@@ -2,9 +2,12 @@ from PySide6.QtCore import Qt, Slot
 from PySide6.QtWidgets import QGraphicsView
 
 from pytilemap.mapscene import MapGraphicsScene
-from pytilemap.qtsupport import wheelAngleDelta
 
 from pytilemap.maptilesources.maptilesourceosm import MapTileSourceOSM
+
+def wheelAngleDelta(wheelEvent):
+    return wheelEvent.angleDelta().y()
+
 
 class MapGraphicsView(QGraphicsView):
     """Graphics view for showing a slippy map.
