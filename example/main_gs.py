@@ -155,13 +155,13 @@ class MapZoom(QMainWindow):
 
 
         # TODO
-        #lats_2 = list()
-        #lons_2 = list()
-        #for p in POINTS_2:
-        #    lons_2.append(p[1])
-        #    lats_2.append(p[0])
-        #linesGroupItem = view.scene().addLinesGroup(lons_2, lats_2)
-        #linesGroupItem.setLineStyle(POINTS_2_COLORS, width=POINTS_2_SIZES)
+        lats_2 = list()
+        lons_2 = list()
+        for p in POINTS_2:
+            lons_2.append(p[1])
+            lats_2.append(p[0])
+        linesGroupItem = view.scene().addLinesGroup(lons_2, lats_2)
+        linesGroupItem.setLineStyle(POINTS_2_COLORS, width=POINTS_2_SIZES)
 
         # TODO
         #legendItem = view.scene().addLegend()
@@ -175,7 +175,7 @@ class MapZoom(QMainWindow):
         navItem = view.scene().addNavItem(anchor=Qt.TopRightCorner)
 
         # TODO
-        # scaleItem = view.scene().addScale(anchor=Qt.BottomRightCorner)
+        scaleItem = view.scene().addScale(anchor=Qt.BottomRightCorner)
 
         
 

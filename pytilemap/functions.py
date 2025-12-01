@@ -151,7 +151,12 @@ def makePen(color, width=1.0, style=SolidLine, cap=SquareCap, join=BevelJoin):
     if isinstance(brush, list):
         if not hasattr(width, "__iter__"):
             width = np.full(len(brush), width, dtype=np.float64)
-        return [QPen(b, w, style=style) for b, w in izip(brush, width)]
+        ret = []
+        for b,w in izip(brush, width):
+            ret.append(QPen(b,w))
+            ret[-1].setStyle(style)
+        #return [QPen(b, w, style=style) for b, w in izip(brush, width)]
+        return ret
     return QPen(brush, width, style, cap, join)
 
 
