@@ -672,8 +672,6 @@ class MapGraphicsScene(QGraphicsScene):
         return self.nav_item
 
     def addLegend(self, pos=QPointF(10.0, 10.0)):
-        print ("Not Supported")
-        return None
         legend = MapLegendItem(pos=pos)
         self.addItem(legend)
         self.sceneRectChanged.connect(legend.setSceneRect)

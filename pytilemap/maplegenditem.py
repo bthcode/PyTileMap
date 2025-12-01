@@ -42,7 +42,7 @@ class MapLegendItem(QGraphicsObject, MapItem):
     QtParentClass = QGraphicsObject
 
     def __init__(self, pos=None, parent=None):
-        QGraphicsObject.__init__(self, parent=parent)
+        QGraphicsObject.__init__(self)
         MapItem.__init__(self)
         self.setZValue(200.0)
 

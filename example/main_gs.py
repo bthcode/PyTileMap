@@ -164,12 +164,12 @@ class MapZoom(QMainWindow):
         linesGroupItem.setLineStyle(POINTS_2_COLORS, width=POINTS_2_SIZES)
 
         # TODO
-        #legendItem = view.scene().addLegend()
-        #legendItem.addPoint('Point 1', '#FF0000', border=None)
-        #legendItem.addRect('Rect 2', '#00FF00', border=None)
-        #legendItem.addPoint('Circle 3', '#0000FF', border=None)
-        #legendItem.addRect('Sphere 4', '#00FFFF', border=None)
-        #legendItem.addPoint('Polygon 5', '#FF00FF', border=None)
+        legendItem = view.scene().addLegend()
+        legendItem.addPoint('Point 1', '#FF0000', border=None)
+        legendItem.addRect('Rect 2', '#00FF00', border=None)
+        legendItem.addPoint('Circle 3', '#0000FF', border=None)
+        legendItem.addRect('Sphere 4', '#00FFFF', border=None)
+        legendItem.addPoint('Polygon 5', '#FF00FF', border=None)
 
         # TODO
         navItem = view.scene().addNavItem(anchor=Qt.TopRightCorner)
