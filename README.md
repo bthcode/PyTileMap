@@ -21,9 +21,9 @@ classDiagram
 title: Tile Sequence
 ---
 sequenceDiagram
-    MapGraphicsScene -> MapObject sigZoomChanged
-    MapTileSource -> MapGraphicsScene tileReceived
-    MapGraphicsScene -> MapTileSource requestTile
+    MapGraphicsScene ->> MapObject sigZoomChanged
+    MapTileSource ->> MapGraphicsScene tileReceived
+    MapGraphicsScene ->> MapTileSource requestTile
 
 ``` 
 
@@ -35,10 +35,10 @@ sequenceDiagram
 title: Object Sequence
 ---
 sequenceDiagram
-    main -> MapGraphicsScene addRectShape
-    MapGraphicsScene -> MapGraphicsScene addItem
-    MapGraphicsScene -> QGraphicsScene addItem
-    MapGraphicsScene -> main item
+    main ->> MapGraphicsScene addRectShape
+    MapGraphicsScene ->> MapGraphicsScene addItem
+    MapGraphicsScene ->> QGraphicsScene addItem
+    MapGraphicsScene ->> main item
 
 ``` 
 
