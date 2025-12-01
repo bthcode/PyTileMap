@@ -1,11 +1,9 @@
-from __future__ import print_function, absolute_import
-
 import numpy as np
 
-from qtpy.QtCore import Qt, QLineF, QPointF, QRectF, QSize, Signal
+from PySide6.QtCore import Qt, QLineF, QPointF, QRectF, QSize, Signal
 from PySide6.QtCore import Signal, QObject
-from qtpy.QtGui import QPainterPath, QPen, QBrush, QColor, QTransform, QPolygonF
-from qtpy.QtWidgets import (
+from PySide6.QtGui import QAction, QPainterPath, QPen, QBrush, QColor, QTransform, QPolygonF
+from PySide6.QtWidgets import (
     QGraphicsEllipseItem,
     QGraphicsLineItem,
     QGraphicsPathItem,
@@ -16,20 +14,15 @@ from qtpy.QtWidgets import (
     QGraphicsRectItem,
     QGraphicsTextItem,
     QMenu,
-    QAction,
 )
-
+from PySide6.QtSvgWidgets import QGraphicsSvgItem
 
 import pytilemap.coordinate_utils as cc
 import math
 
-try:
-    from qtpy.QtSvg import QGraphicsSvgItem, QSvgRenderer
-except ImportError:
-    from PySide6.QtSvgWidgets import QGraphicsSvgItem
 
-from .functions import iterRange, makePen, izip
-from .qtsupport import getQVariantValue
+from pytilemap.functions import iterRange, makePen, izip
+from pytilemap.qtsupport import getQVariantValue
 
 SolidLine = Qt.SolidLine
 

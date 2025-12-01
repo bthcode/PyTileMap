@@ -1,13 +1,11 @@
-from __future__ import print_function, absolute_import
-
-from qtpy.QtCore import Qt, Slot, QRectF, QPointF
-from qtpy.QtGui import QPen, QBrush, QColor
-from qtpy.QtWidgets import QGraphicsObject, QGraphicsRectItem, QGraphicsItemGroup, \
+from PySide6.QtCore import Qt, Slot, QRectF, QPointF
+from PySide6.QtGui import QPen, QBrush, QColor
+from PySide6.QtWidgets import QGraphicsObject, QGraphicsRectItem, QGraphicsItemGroup, \
     QGraphicsSimpleTextItem, QGraphicsEllipseItem, QGraphicsLineItem
 
-from .mapitems import MapItem
-from .functions import makePen, makeBrush
-from .qtsupport import getQVariantValue
+from pytilemap.mapitems import MapItem
+from pytilemap.functions import makePen, makeBrush
+from pytilemap.qtsupport import getQVariantValue
 
 
 class MapLegendEntryItem(QGraphicsItemGroup):

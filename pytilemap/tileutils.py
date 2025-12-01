@@ -1,5 +1,3 @@
-from __future__ import division
-
 import numpy as np
 from numpy import log, tan, cos, arctan, exp
 from numpy import pi as PI

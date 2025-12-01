@@ -1,10 +1,8 @@
-from __future__ import print_function, absolute_import
+from PySide6.QtCore import Qt, Slot
+from PySide6.QtWidgets import QGraphicsView
 
-from qtpy.QtCore import Qt, Slot
-from qtpy.QtWidgets import QGraphicsView
-
-from .mapscene import MapGraphicsScene
-from .qtsupport import wheelAngleDelta
+from pytilemap.mapscene import MapGraphicsScene
+from pytilemap.qtsupport import wheelAngleDelta
 
 from pytilemap.maptilesources.maptilesourceosm import MapTileSourceOSM
 
