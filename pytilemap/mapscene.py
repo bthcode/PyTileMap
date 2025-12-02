@@ -1,7 +1,6 @@
 import numpy as np
 import os
 
-
 # Pyside Imports
 from PySide6.QtCore import Qt, Signal, Slot, QRect, QRectF, QPointF, QSizeF, QPoint, QSize
 from PySide6.QtGui import QPixmap, QPen, QBrush, QColor, QPainter
@@ -560,7 +559,7 @@ class MapGraphicsScene(QGraphicsScene):
         Returns:
             MapGraphicsPixmapItem added to the scene.
         """
-        pinfile = os.path.dirname(__file__) + os.sep + "red_pin.png"
+        pinfile = os.path.dirname(__file__) + os.sep + "assets" + os.sep + "images" + os.sep + "red_pin.png"
         pixmap = QPixmap()
         pixmap.load(pinfile)
         item = MapGraphicsPixmapItem(lon, lat, pixmap)

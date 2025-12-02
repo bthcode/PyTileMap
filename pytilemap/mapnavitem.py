@@ -45,7 +45,7 @@ class MapNavItem(QGraphicsObject, MapItem):
 
         self._entries = list()
 
-        imgfile = os.path.dirname(__file__) + os.sep + "zoom_in_symbol.png"
+        imgfile = os.path.dirname(__file__) + os.sep + "assets" + os.sep + "images" + os.sep + "zoom_in_symbol.png"
         img = QPixmap(24, 24)
         img.load(imgfile)
         img = img.scaled(24, 24)
@@ -53,7 +53,7 @@ class MapNavItem(QGraphicsObject, MapItem):
         self.zoom_in_button = img
         self.addEntry(self.zoom_in_button)
 
-        imgfile = os.path.dirname(__file__) + os.sep + "zoom_out_symbol.png"
+        imgfile = os.path.dirname(__file__) + os.sep + "assets" + os.sep + "images" + os.sep + "zoom_out_symbol.png"
         img2 = QPixmap(24, 24)
         img2.load(imgfile)
         img2 = img2.scaled(24, 24)
